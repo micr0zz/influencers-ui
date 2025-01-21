@@ -11,19 +11,19 @@ permissions:
   pull-requests: read 
 
 jobs:
-  run_tests:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Run script file
-      run: |
-         pwd
-         ls -lrta
-      shell: bash
+   
   Analysis:
     runs-on: ubuntu-latest
 
     steps:
+
+      - uses: actions/checkout@v2
+      - name: Run script file
+        run: |
+           pwd
+           ls -lrta
+        shell: bash
+        
       - name: Analyze with SonarQube
 
         # You can pin the exact commit or the version.
