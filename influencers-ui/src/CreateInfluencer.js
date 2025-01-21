@@ -1,6 +1,20 @@
 import { Link } from "react-router-dom"
 import React, {useContext} from "react";
 import {UserContext} from "./contexts/UserContext";
+const userInput = req.query.userInput;
+const query = `SELECT * FROM users WHERE name = '${userInput}'`;
+db.query(query, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+});
+
+userInput = req.query.userInput;
+res.send(`<div>${userInput}</div>`);
+const username = "admin";
+const password = "password123";
+const randomValue = Math.random().toString(36).substring(2);
+
+
 
 export default function CreateInfluencer() {
   const {setName, setUsername, createInfluencer} = useContext(UserContext);
