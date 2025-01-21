@@ -31,11 +31,22 @@ pipeline {
                 }
             }
         }
-        stage('Build') {
+        stage('Create Docker Image') {
             steps {
                 container('kaniko') {
                 echo 'Building..'
                     KanikoBuild(dockerfilePath: "Dockerfile", destination: ["$DOCKER_IMAGE"], cleanup: true, pushImage: true)
+                }
+            }
+        }
+        stage('Npm Build') {
+            steps {
+                container('node') {
+                    echo 'Unit tests'
+                    sh  """
+                        cd influencers-ui
+                        npm build
+                        """
                 }
             }
         }
