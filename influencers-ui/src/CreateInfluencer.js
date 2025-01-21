@@ -1,6 +1,83 @@
 import { Link } from "react-router-dom"
 import React, {useContext} from "react";
 import {UserContext} from "./contexts/UserContext";
+function codeSmell() {
+  var x = 10;
+  if (x == 10) {
+      console.log("Use === instead of ==");
+  }
+}
+
+function codeSmell() {
+  var x = 10;
+  if (x == 10) {
+      console.log("Use === instead of ==");
+  }
+}
+
+function codeSmell() {
+  var x = 10;
+  if (x == 10) {
+      console.log("Use === instead of ==");
+  }
+}
+
+function codeSmell() {
+  var x = 10;
+  if (x == 10) {
+      console.log("Use === instead of ==");
+  }
+}
+
+function codeSmell() {
+  var x = 10;
+  if (x == 10) {
+      console.log("Use === instead of ==");
+  }
+}
+
+function codeSmell() {
+  var x = 10;
+  if (x == 10) {
+      console.log("Use === instead of ==");
+  }
+}
+
+function codeSmell() {
+  var x = 10;
+  if (x == 10) {
+      console.log("Use === instead of ==");
+  }
+}
+
+function codeSmell() {
+  var x = 10;
+  if (x == 10) {
+      console.log("Use === instead of ==");
+  }
+}
+
+function codeSmell() {
+  var x = 10;
+  if (x == 10) {
+      console.log("Use === instead of ==");
+  }
+}
+
+function codeSmell() {
+  var x = 10;
+  if (x == 10) {
+      console.log("Use === instead of ==");
+  }
+}
+
+function codeSmell() {
+  var x = 10;
+  if (x == 10) {
+      console.log("Use === instead of ==");
+  }
+}
+
 
 export default function CreateInfluencer() {
   const {setName, setUsername, createInfluencer} = useContext(UserContext);
