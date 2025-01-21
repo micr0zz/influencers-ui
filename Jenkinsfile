@@ -15,7 +15,7 @@ pipeline {
     }
     
     environment {
-        DOCKER_IMAGE = "art.pmideep.com/$productCode-docker-dev/emoji-search:latest"
+        DOCKER_IMAGE = "art.pmideep.com/$productCode-docker-dev/influencers-ui:latest"
         SONAR_HOME   = tool name: 'SonarQube'
     }
     
@@ -25,7 +25,7 @@ pipeline {
                 container('node') {
                     echo 'Unit tests'
                     sh  """
-                        cd emoji-search-master
+                        cd influencers-ui
                         npm install
                         """
                 }
