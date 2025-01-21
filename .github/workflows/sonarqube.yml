@@ -35,5 +35,5 @@ jobs:
         with:
           args:
             -Dsonar.projectKey=cst-influencers-ui
-            -Dsonar.sources=influencers-ui/
+            -Dsonar.sources=./influencers-ui/
 
