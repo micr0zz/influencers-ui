@@ -39,12 +39,20 @@ jobs:
           password: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
       - name: Build the Docker image
-        if: ${{ github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' )}}
-        run: docker build . --file Dockerfile --tag ${{ secrets.ARTIFACTORY_HOST }}/cst-docker-dev/influencers-ui-github:${{  github.ref_name }}
+        run: docker build . --file Dockerfile --tag ${{ secrets.ARTIFACTORY_HOST }}/cst-docker-dev/influencers-ui-github:test
 
       - name: Push Docker Image
-        if: ${{ github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' )}}
-        run: docker push ${{ secrets.ARTIFACTORY_HOST }}/cst-docker-dev/influencers-ui-github:${{  github.ref_name }}
+        run: docker push ${{ secrets.ARTIFACTORY_HOST }}/cst-docker-dev/influencers-ui-github:test
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: '${{ secrets.ARTIFACTORY_HOST }}/cst-docker-dev/influencers-ui-github:test'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
 
       - name: Configure AWS credentials
         if: ${{ github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' )}}
