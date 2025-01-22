@@ -39,11 +39,11 @@ jobs:
           password: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
       - name: Build the Docker image
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        if: ${{ github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' )}}
         run: docker build . --file Dockerfile --tag ${{ secrets.ARTIFACTORY_HOST }}/cst-docker-dev/influencers-ui-github:${{  github.ref_name }}
 
       - name: Push Docker Image
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        if: ${{ github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' )}}
         run: docker push ${{ secrets.ARTIFACTORY_HOST }}/cst-docker-dev/influencers-ui-github:${{  github.ref_name }}
 
       - name: Configure AWS credentials
@@ -65,3 +65,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           target: 'http://react-app-bucket-pmi.s3-website-eu-west-1.amazonaws.com/'
           cmd_options: '-a'
+      
