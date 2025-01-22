@@ -5,8 +5,13 @@ on:
   push:
     branches:
       - master
+      - dev
 jobs:
   build:
+
+    permissions:
+      id-token: write
+      contents: read
 
     runs-on: ubuntu-latest
 
@@ -41,7 +46,14 @@ jobs:
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         run: docker push ${{ secrets.ARTIFACTORY_HOST }}/cst-docker-dev/influencers-ui-github:${{  github.ref_name }}
 
+      - name: Configure AWS credentials
+        if: ${{ github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' )}}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::121491553311:role/github-actions-role
+          aws-region: eu-west-1
+
       - name: Upload to S3
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        if: ${{ github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' )}}
         run: |
           aws s3 sync influencers-ui/build/ s3://react-app-bucket-pmi/
