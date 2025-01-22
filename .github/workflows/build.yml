@@ -57,3 +57,11 @@ jobs:
         if: ${{ github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' )}}
         run: |
           aws s3 sync influencers-ui/build/ s3://react-app-bucket-pmi/
+
+      - name: ZAP Scan
+        if: ${{ github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' )}}
+        uses: zaproxy/action-full-scan@v0.12.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target: 'http://react-app-bucket-pmi.s3-website-eu-west-1.amazonaws.com/'
+          cmd_options: '-a'
