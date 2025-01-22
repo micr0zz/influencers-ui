@@ -1,0 +1,22 @@
+name: Test KICS action PR comment
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: run kics Scan
+      uses: checkmarx/kics-github-action@v2.1.3
+      with:
+        path: terraform
+        token: ${{ secrets.GITHUB_TOKEN }}
+        output_path: kics_results/
+        ignore_on_exit: results
+        enable_comments: true
+        fail_on: high,medium
+    - name: display kics results
+      run: |
+        cat kics_results/results.json
