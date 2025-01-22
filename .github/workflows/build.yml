@@ -20,9 +20,10 @@ jobs:
 
       - run: cd influencers-ui && npm install
       - run: cd influencers-ui && npm test
+      - run: export NODE_OPTIONS="--openssl-legacy-provider" && cd influencers-ui && npm run build
 
       - name: Set up Docker Buildx
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         uses: docker/setup-buildx-action@v2
 
       - name: Log in to Docker Hub
@@ -33,9 +34,14 @@ jobs:
           password: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
       - name: Build the Docker image
-        if: ${{ github.event_name == 'push'}}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         run: docker build . --file Dockerfile --tag ${{ secrets.ARTIFACTORY_HOST }}/cst-docker-dev/influencers-ui-github:${{  github.ref_name }}
 
       - name: Push Docker Image
-        if: ${{ github.event_name == 'push'}}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         run: docker push ${{ secrets.ARTIFACTORY_HOST }}/cst-docker-dev/influencers-ui-github:${{  github.ref_name }}
+
+      - name: Upload to S3
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        run: |
+          aws s3 sync influencers-ui/build/ s3://react-app-bucket-pmi/
