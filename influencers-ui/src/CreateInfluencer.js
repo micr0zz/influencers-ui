@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import React, {useContext} from "react";
 import {UserContext} from "./contexts/UserContext";
+let API_KEY="1234567890abcdef"
 
 export default function CreateInfluencer() {
   const {setName, setUsername, createInfluencer} = useContext(UserContext);
